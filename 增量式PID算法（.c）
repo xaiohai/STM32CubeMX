@@ -12,15 +12,15 @@ void PID_Init(void)
 	
 	pid.Kp = 2;     				//-------------------------------------------------------------------------------------用户设定值 比例系数（放大器）
 	
-	pid.Kp_P = 10;
-	pid.Kp_I = 3;
-	pid.Kp_D = 1;
+	pid.Kp_P = 3;
+	pid.Kp_I = 0.6;
+	pid.Kp_D = 0.2;
 	
 	pid.Ek_1 = 0;
 	pid.Ek_2 = 0;
 	
-	pid.Upper_bound = 50;		//-------------------------------------------------------------------------------------设置PID上边界
-	pid.Lower_bound = -50;	
+	pid.Upper_bound = 1500;		//-------------------------------------------------------------------------------------设置PID上边界
+	pid.Lower_bound = -1500;	
 }
 
 /*-----------------------------------------------*/
@@ -51,7 +51,7 @@ float PID_calc(float Sv_value,float Pv_value)
 	pid.Delt_Output = pid.Kp_P * pid.P_Output + pid.Kp_I * pid.I_Output + pid.Kp_D * pid.D_Output;//-----------------计算结果
 	pid.Output += pid.Delt_Output;
 	/*----------------------- 防止PID过调 --------------------------*/
-	/*
+	
 	if(pid.Output > pid.Upper_bound)
 	{
 		pid.Output = pid.Upper_bound;
@@ -60,10 +60,12 @@ float PID_calc(float Sv_value,float Pv_value)
 	{
 		pid.Output = pid.Lower_bound;
 	}
-	*/
+	
 	/*--------------------------------------------------------------*/
-
+	
+	pid.Ek_2 = pid.Ek_1;
 	pid.Ek_1 = pid.Ek;//--------------------------------------------------------------------------------------------更新数据
+	
 	pid.CalcFlag = 0;//---------------------------------------------------------------------------------------------清除标志位
 	
 	return pid.Output ;
