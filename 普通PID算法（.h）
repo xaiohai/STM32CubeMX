@@ -1,0 +1,59 @@
+#ifndef _PID_H_
+#define _PID_H_
+
+/*
+
+//   PID基本公式
+
+Output = Kp * (E[k] + (T/Ti)∑E[k] + (TD / T) * (E[k] - E[k - 1])) + Incremental
+
+*/
+
+
+/********************* PID结构体初始化 ******************/
+
+typedef struct
+{
+	float Sv;						//容纳用户设定值
+	float Pv;						//当前传感器采集值
+	
+	float Kp;						//比例系数（放大器）
+	
+	float Kp_P;					//比例系数（比例）
+	float Kp_I;					//比例系数（积分）
+	float Kp_D;					//比例系数（微分）
+	
+	float T;						//PID计算周期（采样周期）
+	float Ti;						//积分时间常数
+	float Td;						//微分时间常数	
+
+	float Ek;						//本次误差
+	float Ek_1;					//上次误差
+	float S_Ek;					//历史误差和
+	
+	float Incremental;  //增量
+	
+	float Upper_bound;  //上边缘
+	float Lower_bound;	//下边缘
+	
+	float P_Output;			//比例输出
+	float I_Output;			//积分输出
+	float D_Output;			//微分输出
+	
+	float Output;				//最终输出量
+	
+	int 	CalcFlag;			//时间标志位
+	
+}My_PID;
+
+/******************** PID变量声明 ***********************/
+
+extern My_PID pid;
+
+/******************** PID函数声明 ***********************/
+
+void PID_Init(void);				//PID初始化
+float PID_Output_Init(void);		//PID输出初始化
+float PID_calc(float Sv_value,float Pv_value);								//PID计算
+
+#endif
