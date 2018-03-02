@@ -23,9 +23,11 @@ typedef struct
 	float Kp_I;					//比例系数（积分）
 	float Kp_D;					//比例系数（微分）
 	
+/*	
 	float T;						//PID计算周期（采样周期）
 	float Ti;						//积分时间常数
-	float Td;						//微分时间常数	
+	float Td;						//微分时间常数
+*/	
 
 	float Ek;						//本次误差
 	float Ek_1;					//上次误差
@@ -33,8 +35,8 @@ typedef struct
 	
 	float Incremental;  //增量
 	
-	float Upper_bound;  //上边缘
-	float Lower_bound;	//下边缘
+	float Upper_bound; 	//上边缘
+	float Lower_bound; 	//下边缘
 	
 	float P_Output;			//比例输出
 	float I_Output;			//积分输出
@@ -42,7 +44,7 @@ typedef struct
 	
 	float Output;				//最终输出量
 	
-	int 	CalcFlag;			//时间标志位
+	int   CalcFlag;			//时间标志位
 	
 }My_PID;
 
@@ -53,7 +55,7 @@ extern My_PID pid;
 /******************** PID函数声明 ***********************/
 
 void PID_Init(void);				//PID初始化
-float PID_Output_Init(void);		//PID输出初始化
-float PID_calc(float Sv_value,float Pv_value);								//PID计算
+float PID_Output_Init(void);			//PID输出初始化
+float PID_calc(float Sv_value,float Pv_value);	//PID计算
 
 #endif
